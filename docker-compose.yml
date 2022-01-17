@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  unit:
+    image: unit/php:laravel
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /usr/wwwroot/projects
+    restart: always
+    hostname: laravel
+    container_name: laravel
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - matrix
+    volumes:
+      - ./projects:/usr/wwwroot/projects:rw
+      - ./php/etc:/usr/local/etc
+networks:
+  matrix:
+    name: matrix
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.8.0/24
